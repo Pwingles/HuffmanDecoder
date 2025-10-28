@@ -82,7 +82,7 @@ The decoder skeleton has been created with the following components:
 - Course textbook and lecture materials on Huffman coding
 
 **AI-Assisted Development:**
-- Used Cursor AI for code organization and skeleton generation
+- Used AI for code organization and skeleton generation
 - Used AI for README formatting and structure
 - No AI-generated code implementations (all core logic will be student-written)
 
