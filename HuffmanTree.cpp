@@ -7,8 +7,6 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <sstream>
-#include <fstream>
 
 /**
  * Destructor - deletes the entire Huffman tree
@@ -26,7 +24,38 @@ HuffmanTree::~HuffmanTree() {
  * - Put word in leaf node when you reach end of code
  */
 error_type HuffmanTree::buildFromHeader(const std::vector<std::pair<std::string, std::string>>& headerPairs) {
-    // TODO: Implement this function
+    
+    for (const auto& pair : headerPairs) {
+        std::string word = pair.first;
+        std::string code = pair.second;
+
+        if(root_ == nullptr) {
+            root_ = new TreeNode("");
+        }
+
+        //Start traversing
+        TreeNode* current = root_;
+
+        for (char c : code) {
+            if (c == '0') {
+                if(current->left == nullptr) {
+                    current->left = new TreeNode("");  
+                }
+                current = current->left;
+            }
+
+            if(c == '1'){
+                if(current->right == nullptr){
+                    current->right = new TreeNode("");
+                }
+                current = current->right;
+            }
+        }
+        
+        current->key_word = word;
+
+    }
+   
     return NO_ERROR;
 }
 
@@ -40,6 +69,28 @@ error_type HuffmanTree::buildFromHeader(const std::vector<std::pair<std::string,
  */
 error_type HuffmanTree::decode(std::istream& codeStream, std::ostream& outStream) {
     // TODO: Implement this function
+    TreeNode* current = root_;
+    char bit;
+    while(codeStream >> bit) {
+        //Skip newlines
+        if(bit == '\n'){
+            continue;
+        }
+
+        // left
+        if(bit == '0'){
+            current = current->left;
+        }
+        // right
+        if(bit == '1'){
+            current = current->right;
+        }
+        //chek if we hit leaf
+        if(current->left == nullptr && current->right == nullptr) {
+            outStream << current->key_word << '\n';
+            current = root_;
+        }
+     }
     return NO_ERROR;
 }
 

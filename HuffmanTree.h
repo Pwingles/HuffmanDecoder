@@ -32,6 +32,9 @@ private:
     
     // Helper: destroy the entire tree
     static void destroy(TreeNode* n) noexcept;
+
+    // Helper function to add word to tree following the code path
+    void addToTree(TreeNode* node, const std::string& code, const std::string& word, int index);
 };
 
 #endif //HUFFMANTREE_H
