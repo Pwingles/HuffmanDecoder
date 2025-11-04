@@ -17,6 +17,7 @@ enum error_type {
     ERR_TYPE_NOT_FOUND,
     UNABLE_TO_OPEN_FILE_FOR_WRITING,
     FAILED_TO_WRITE_FILE,
+    INCOMPLETE_CODE,
 };
 
 void exitOnError(error_type error, const std::string& entityName);
