@@ -52,11 +52,11 @@ The decoder implementation is **complete**:
 **AI-Assisted Development:**
 - Used AI for code organization and skeleton generation
 - Used AI for README formatting and structure
-- No AI-generated code implementations (all core logic will be student-written)
+- No AI-generated code implementations (all core logic is written by me, Kevin Rodriguez)
 
 **Original Work:**
 - All decoder-specific implementations (buildFromHeader, decode, readHeader)
-- Main function logic and orchestration
+- Main function logic and error checking
 - File parsing and validation logic
 
 ---
