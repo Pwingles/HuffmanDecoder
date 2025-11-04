@@ -17,11 +17,10 @@ HuffmanTree::~HuffmanTree() {
 }
 
 /**
- * TODO: Build tree from header file
- * - Loop through each (word, code) pair
- * - Start at root, follow code path: 0=left, 1=right
- * - Create nodes if they don't exist
- * - Put word in leaf node when you reach end of code
+ * Loop through each (word, code) pair
+ * Start at root, follow code path: 0=left, 1=right
+ *  Create nodes if they don't exist
+ *  Put word in leaf node when you reach end of code
  */
 error_type HuffmanTree::buildFromHeader(const std::vector<std::pair<std::string, std::string>>& headerPairs) {
     
@@ -60,15 +59,13 @@ error_type HuffmanTree::buildFromHeader(const std::vector<std::pair<std::string,
 }
 
 /**
- * TODO: Decode the bitstream
- * - Read each character from codeStream
- * - Skip newline characters (ignore them)
- * - 0 = go left, 1 = go right in tree
- * - When you hit a leaf, write the word to outStream
- * - Go back to root and repeat
+ * Read each character from codeStream
+ * Skip newline characters (ignore them)
+ * 0 = go left, 1 = go right in tree
+ * When you hit a leaf, write the word to outStream
+ * Go back to root and repeat
  */
 error_type HuffmanTree::decode(std::istream& codeStream, std::ostream& outStream) {
-    // TODO: Implement this function
     TreeNode* current = root_;
     char bit;
     while(codeStream >> bit) {
@@ -78,11 +75,17 @@ error_type HuffmanTree::decode(std::istream& codeStream, std::ostream& outStream
         }
 
         // left
-        if(bit == '0'){
+        if(bit == '0') {
+            if (current->left == nullptr) {
+                return INCOMPLETE_CODE;
+            }
             current = current->left;
         }
         // right
-        if(bit == '1'){
+        else if(bit == '1') {
+            if (current->right == nullptr) {
+                return INCOMPLETE_CODE;
+            }
             current = current->right;
         }
         //chek if we hit leaf
@@ -90,13 +93,20 @@ error_type HuffmanTree::decode(std::istream& codeStream, std::ostream& outStream
             outStream << current->key_word << '\n';
             current = root_;
         }
-     }
+    }
+    
+    // If we finish reading the stream but are not at the root (i.e., still at an internal node)
+    // This means the code file ended before reaching a valid leaf node
+    if(current != root_) {
+        return INCOMPLETE_CODE;
+    }
+     
     return NO_ERROR;
 }
 
 /**
  * Helper: Recursively destroy the entire tree
- * 
+ * Imported from previous project (Huffman Encoder)
  * Performs a post-order traversal to delete all nodes
  * starting from the given node.
  * 
