@@ -19,53 +19,21 @@ This project implements a Huffman decoder that reconstructs the original token s
 
 ### Current State
 
-The decoder skeleton has been created with the following components:
+The decoder implementation is **complete**:
 
 **Completed:**
-- Basic project structure and file organization
-- HuffmanTree class with declarations for decoder methods
-- TreeNode structure for Huffman tree nodes
-- Utility functions for error handling (utils.hpp, utils.cpp)
-- Main function with command-line argument parsing
-- Input/output test files provided in `input_output/` directory
-- Git repository initialized and pushed to GitHub
-
-**TODO Implementation:**
-- `buildFromHeader()` - Reconstruct Huffman tree from header file
-- `decode()` - Decode bitstream using the reconstructed tree
-- `readHeader()` - Parse header file into (word, code) pairs
-- Generate output filename from input filename
-- File validation and error checking
-
-### What Needs to be Done
-
-1. **Implement `readHeader()` function** in `main.cpp`
-   - Read `.hdr` file line by line
-   - Parse "word code" format
-   - Store pairs in vector
-
-2. **Implement `buildFromHeader()` method** in `HuffmanTree.cpp`
-   - Start with empty root node
-   - For each (word, code) pair:
-     - Traverse tree following code path (0=left, 1=right)
-     - Create nodes as needed
-     - Assign word to leaf node
-
-3. **Implement `decode()` method** in `HuffmanTree.cpp`
-   - Read bitstream from code file
-   - Skip newline characters
-   - Traverse tree for each bit (0=left, 1=right)
-   - When leaf reached, output word and reset to root
-   - Continue until stream consumed
-
-4. **Complete `main()` function** in `main.cpp`
-   - Validate command-line arguments
-   - Extract base name and create output path
-   - Read header file
-   - Build Huffman tree
-   - Open streams
-   - Decode and write output
-   - Add error handling
+- ✓ Basic project structure and file organization
+- ✓ HuffmanTree class with decoder methods implemented
+- ✓ TreeNode structure for Huffman tree nodes
+- ✓ Utility functions for error handling (utils.hpp, utils.cpp)
+- ✓ Main function with command-line argument parsing
+- ✓ `readHeader()` - Parses header file into (word, code) pairs
+- ✓ `buildFromHeader()` - Reconstructs Huffman tree from header pairs
+- ✓ `decode()` - Decodes bitstream using the reconstructed tree
+- ✓ Output filename generation from code file base name
+- ✓ Basic error checking (command-line args, file opening)
+- ✓ Input/output test files provided in `input_output/` directory
+- ✓ Git repository initialized and pushed to GitHub
 
 ---
 
@@ -97,18 +65,17 @@ The decoder skeleton has been created with the following components:
 
 ### Current Status
 
-**Implementation Progress:** 0% complete (skeleton only)
+**Implementation Progress:** 100% complete
 
 **Files:**
-- `main.cpp` - Basic structure with argument parsing
-- `HuffmanTree.cpp` - Method declarations with TODOs
-- `HuffmanTree.h` - Interface defined
+- `main.cpp` - Complete implementation with argument parsing and file handling
+- `HuffmanTree.cpp` - All methods implemented (buildFromHeader, decode, destroy)
+- `HuffmanTree.h` - Interface fully defined
 - `TreeNode.h` - Structure defined
 - `utils.hpp/cpp` - Utility functions available
 
 **Testing Plan:**
 
-Once implementation is complete:
 1. Test with `lab08_input` files (smallest test case)
 2. Test with chapter files (medium complexity)
 3. Test with complete book files (largest test case)
@@ -119,7 +86,7 @@ Once implementation is complete:
 ### Expected Behavior
 
 ```
-$ ./huff_decode.x input_output/lab08_input.hdr input_output/lab08_input.code
+$ ./huffman_decoder.x lab08_input.hdr lab08_input.code
 ```
 
 Should generate:
@@ -136,6 +103,8 @@ Verified with:
 ```
 diff input_output/lab08_input.tokens_decoded input_output/lab08_input.tokens
 ```
+
+**Note:** The program expects input file names (without the `input_output/` prefix) as arguments, but automatically resolves them under the `input_output/` directory. The output file is also placed in `input_output/` with the base name of the code file.
 
 ---
 
@@ -163,24 +132,39 @@ HuffmanDecoder/
 
 **To compile:**
 ```bash
-g++ -std=c++20 -Wall *.cpp -o huff_decode.x
+g++ -std=c++20 -Wall *.cpp -o huffman_decoder.x
 ```
 
 **To run:**
 ```bash
-./huff_decode.x <header.hdr> <code.code>
+./huffman_decoder.x <header.hdr> <code.code>
 ```
 
 **Example:**
 ```bash
-./huff_decode.x input_output/lab08_input.hdr input_output/lab08_input.code
+./huffman_decoder.x lab08_input.hdr lab08_input.code
 ```
 
+**Note:** The program automatically resolves input files under the `input_output/` directory and places output files there as well. Pass only the filenames (not full paths) as arguments.
+
 ---
+
+## Implementation Details
+
+### Decoding Process
+
+1. Reads header file line by line and parses (word, code) pairs using `readHeader()`
+2. Reconstructs Huffman tree by following code paths (0=left, 1=right) using `buildFromHeader()`
+3. Reads code file character by character and skips newlines
+4. Traverses tree based on each bit (0=left, 1=right)
+5. Outputs word when leaf is reached and resets to root
+6. Writes decoded output to `.tokens_decoded` file
 
 ## Notes
 
 This project is a standalone decoder that works with the output of Project 3 (Huffman encoder). The decoder reconstructs the Huffman tree from header files and uses it to decode bitstreams back into word sequences.
 
 This project focuses specifically on decoding functionality and does not include any encoder components.
+
+The implementation follows the requirements specified in Project4.txt.
 

@@ -1,3 +1,6 @@
 # Ignore spec file
 Project4Spec.txt
 
+# Ignore copy script
+copy_files.bash
+
